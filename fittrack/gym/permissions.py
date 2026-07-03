@@ -39,3 +39,13 @@ class IsManagerOrAccountant(permissions.BasePermission):
         if not (request.user and request.user.is_authenticated):
             return False
         return request.user.is_superuser or request.user.groups.filter(name__in=['SuperAdmin', 'Manager', 'Accountant']).exists()
+
+
+class IsAccountantOrTrainer(permissions.BasePermission):
+    """Allows access to Accountants, Trainers, and SuperAdmins."""
+    def has_permission(self, request, view):
+        if not (request.user and request.user.is_authenticated):
+            return False
+        return request.user.is_superuser or request.user.groups.filter(
+            name__in=['SuperAdmin', 'Accountant', 'Trainer']
+        ).exists()

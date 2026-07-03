@@ -58,9 +58,26 @@ const Payments = () => {
     }
   };
 
-  const handlePrintReceipt = (feeId) => {
-    // Open Django PDF receipt endpoint directly in new window
-    window.open(`${api.defaults.baseURL}fees/${feeId}/receipt/`, '_blank');
+  const handlePrintReceipt = async (feeId) => {
+    try {
+      // Use axios so the Authorization: Token header is sent automatically
+      const res = await api.get(`fees/${feeId}/receipt/`, {
+        responseType: 'blob',
+      });
+
+      // Create a temporary object URL and trigger download
+      const blobUrl = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.setAttribute('download', `fee_receipt_${feeId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      console.error('Receipt download failed:', err);
+      alert('Failed to generate receipt. Please try again.');
+    }
   };
 
   // Filter Logic
@@ -73,10 +90,9 @@ const Payments = () => {
   });
 
   // Calculations for Stat Cards
-  const totalCollected = fees.reduce((sum, f) => f.status === 'paid' ? sum + parseFloat(f.amount) + parseFloat(f.late_fee) : sum, 0);
+  const totalCollected = fees.reduce((sum, f) => f.status === 'paid' ? sum + parseFloat(f.amount) : sum, 0);
   const pendingDues = fees.reduce((sum, f) => f.status === 'pending' ? sum + parseFloat(f.amount) : sum, 0);
-  const overdueDues = fees.reduce((sum, f) => f.status === 'overdue' ? sum + parseFloat(f.amount) + parseFloat(f.late_fee) : sum, 0);
-  const lateFeesSum = fees.reduce((sum, f) => sum + parseFloat(f.late_fee), 0);
+  const overdueDues = fees.reduce((sum, f) => f.status === 'overdue' ? sum + parseFloat(f.amount) : sum, 0);
 
   const getStatusBadge = (status) => {
     const styles = {
@@ -101,7 +117,7 @@ const Payments = () => {
       </div>
 
       {/* Stats Cards Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="glass-card stats-card flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold text-slate-400">Total Collected</span>
@@ -141,18 +157,6 @@ const Payments = () => {
           </div>
         </div>
 
-        <div className="glass-card stats-card flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold text-slate-400">Late Penalty Charges</span>
-            <div className="p-2 bg-pink-500/10 rounded-xl text-[#ce5a8c]">
-              <DollarSign size={20} />
-            </div>
-          </div>
-          <div className="mt-4">
-            <h3 className="text-2xl font-bold text-slate-100">PKR {lateFeesSum.toLocaleString()}</h3>
-            <p className="text-xs text-pink-400 font-medium mt-1">Accumulated penalty ledger</p>
-          </div>
-        </div>
       </div>
 
       {/* Filter and Search controls */}
@@ -212,8 +216,7 @@ const Payments = () => {
                   <th className="py-4 px-6">Period</th>
                   <th className="py-4 px-6">Due Date</th>
                   <th className="py-4 px-6">Payment Date</th>
-                  <th className="py-4 px-6">Base Amount</th>
-                  <th className="py-4 px-6">Late Penalty</th>
+                  <th className="py-4 px-6">Amount</th>
                   <th className="py-4 px-6">Status</th>
                   <th className="py-4 px-6">Method</th>
                   <th className="py-4 px-6 text-right">Actions</th>
@@ -227,7 +230,6 @@ const Payments = () => {
                     <td className="py-4 px-6">{fee.due_date || 'N/A'}</td>
                     <td className="py-4 px-6">{fee.payment_date || '-'}</td>
                     <td className="py-4 px-6 font-semibold">PKR {parseFloat(fee.amount).toLocaleString()}</td>
-                    <td className="py-4 px-6 text-rose-400 font-semibold">PKR {parseFloat(fee.late_fee).toLocaleString()}</td>
                     <td className="py-4 px-6">{getStatusBadge(fee.status)}</td>
                     <td className="py-4 px-6 capitalize">{fee.method}</td>
                     <td className="py-4 px-6 text-right space-x-2">
@@ -280,18 +282,10 @@ const Payments = () => {
                 </select>
               </div>
 
-              <div className="p-4 bg-white/5 border border-white/5 rounded-xl space-y-2 text-xs">
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Membership Price:</span>
-                  <span className="font-bold text-slate-200">PKR {parseFloat(activeFee.amount).toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Late Penalty Dues:</span>
-                  <span className="font-bold text-rose-400">PKR {parseFloat(activeFee.late_fee).toLocaleString()}</span>
-                </div>
+              <div className="p-4 bg-white/5 border border-white/5 rounded-xl text-xs">
                 <div className="flex justify-between border-t border-white/10 pt-2 text-sm">
                   <span className="font-bold text-slate-300">Total Payable:</span>
-                  <span className="font-black text-[#ce5a8c]">PKR {(parseFloat(activeFee.amount) + parseFloat(activeFee.late_fee)).toLocaleString()}</span>
+                  <span className="font-black text-[#ce5a8c]">PKR {parseFloat(activeFee.amount).toLocaleString()}</span>
                 </div>
               </div>
 

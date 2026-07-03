@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
 
 from gym.models import (
     Trainer, Profile, MembershipPlan, Member, 
@@ -21,7 +22,7 @@ from gym.serializers import (
     FeeSerializer, PTPackageSerializer, TrainerPayrollSerializer, ExpenseSerializer,
     WorkoutPlanSerializer, DietPlanSerializer, SystemSettingSerializer
 )
-from gym.permissions import IsSuperAdmin, IsManager, IsTrainer, IsAccountant, IsManagerOrAccountant
+from gym.permissions import IsSuperAdmin, IsManager, IsTrainer, IsAccountant, IsManagerOrAccountant, IsAccountantOrTrainer
 from gym.payroll_engine import calculate_monthly_payroll
 from gym.pdf_generator import generate_fee_receipt_pdf, generate_payslip_pdf
 
@@ -229,6 +230,8 @@ class FeeViewSet(viewsets.ModelViewSet):
     def receipt(self, request, pk=None):
         """
         Generates and downloads the PDF receipt.
+        Authentication via ?token= query param is handled by
+        QueryParamTokenAuthentication in gym/authentication.py.
         """
         fee = self.get_object()
         pdf_bytes = generate_fee_receipt_pdf(fee)
@@ -290,9 +293,9 @@ class TrainerPayrollViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ['create', 'destroy', 'calculate']:
-            return [IsAccountant()]
+            return [IsAccountant()] # Accountant or SuperAdmin only
         # Allow Accountants, SuperAdmins, and Trainers. Block Managers.
-        return [IsAccountant() | IsTrainer()]
+        return [IsAccountantOrTrainer()]
 
     @action(detail=False, methods=['post'])
     def calculate(self, request):
@@ -316,15 +319,17 @@ class TrainerPayrollViewSet(viewsets.ModelViewSet):
     def payslip(self, request, pk=None):
         """
         Generates and downloads the PDF payslip.
+        Authentication via ?token= query param is handled by
+        QueryParamTokenAuthentication in gym/authentication.py.
         """
         payroll = self.get_object()
-        
+
         # Row-level check: Trainer can only view their own
         if request.user.groups.filter(name='Trainer').exists():
             trainer = getattr(request.user.profile, 'linked_trainer', None)
             if not trainer or payroll.trainer != trainer:
                 return Response({'error': 'You do not have permission to view this payslip.'}, status=403)
-                
+
         pdf_bytes = generate_payslip_pdf(payroll)
         response = HttpResponse(pdf_bytes, content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="payslip_{payroll.id}.pdf"'

@@ -121,8 +121,8 @@ const Sidebar = () => {
   const visibleLinks = allLinks.filter(link => link.roles.includes(role));
 
   return (
-    <aside className={`glass-panel h-screen sticky top-0 flex flex-col justify-between transition-all duration-300 z-30 ${isCollapsed ? 'w-20' : 'w-64'} text-slate-800 dark:text-slate-100`}>
-      <div>
+    <aside className={`glass-panel h-full flex flex-col justify-between transition-all duration-300 z-30 shrink-0 ${isCollapsed ? 'w-20' : 'w-64'} text-slate-800 dark:text-slate-100`}>
+      <div className="flex-1 overflow-y-auto overflow-x-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-white/10 h-16">
           {!isCollapsed && (
@@ -145,7 +145,7 @@ const Sidebar = () => {
         </div>
 
         {/* Navigation links */}
-        <nav className="mt-6 px-3 space-y-1">
+        <nav className="mt-4 px-3 space-y-1 pb-4">
           {visibleLinks.map((link) => {
             const Icon = link.icon;
             return (

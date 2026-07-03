@@ -149,7 +149,8 @@ CORS_ALLOW_ALL_ORIGINS = True  # For local development
 # REST Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'gym.authentication.QueryParamTokenAuthentication',  # for ?token= PDF downloads
+        'rest_framework.authentication.TokenAuthentication',  # for Authorization header
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',

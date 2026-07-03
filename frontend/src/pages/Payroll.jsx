@@ -87,16 +87,23 @@ const Payroll = () => {
     }
   };
 
-  const handleDownloadPayslip = (payrollId) => {
-    const token = localStorage.getItem('token');
-    const url = `http://127.0.0.1:8000/api/payroll/${payrollId}/payslip/?token=${token}`;
-    
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `payslip_${payrollId}.pdf`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownloadPayslip = async (payrollId) => {
+    try {
+      const res = await api.get(`payroll/${payrollId}/payslip/`, {
+        responseType: 'blob',
+      });
+      const blobUrl = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.setAttribute('download', `payslip_${payrollId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      console.error('Payslip download failed:', err);
+      alert('Failed to download payslip. Please try again.');
+    }
   };
 
   return (

@@ -24,9 +24,9 @@ import Payments from './pages/Payments';
 // Authenticated layout shell wrapping children
 const AppLayout = ({ children }) => {
   return (
-    <div className="flex bg-[var(--bg-app)] text-[var(--text-primary)] min-h-screen font-sans transition-all duration-200">
+    <div className="flex h-screen overflow-hidden bg-[var(--bg-app)] text-[var(--text-primary)] font-sans transition-all duration-200">
       <Sidebar />
-      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden">
         <Navbar />
         <main className="flex-1 overflow-y-auto p-8">
           {children}
