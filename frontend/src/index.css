@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+@theme {
+  /* Override Indigo with Pink Accent Color Theme */
+  --color-indigo-50: #fff5f8;
+  --color-indigo-100: #ffe8f0;
+  --color-indigo-200: #fbcfe0;
+  --color-indigo-300: #f7a3c3;
+  --color-indigo-400: #f06c9e;
+  --color-indigo-500: #ce5a8c; /* Primary Pink from Login Page */
+  --color-indigo-600: #be4879;
+  --color-indigo-700: #9f3661;
+  --color-indigo-800: #842c50;
+  --color-indigo-900: #6f2744;
+  --color-indigo-950: #420f24;
+
+  /* Override Purple with Coordinating Rose Accent Theme */
+  --color-purple-50: #fff5f7;
+  --color-purple-100: #ffe4e9;
+  --color-purple-200: #fbcacf;
+  --color-purple-300: #f79aa4;
+  --color-purple-400: #f06173;
+  --color-purple-500: #db2777;
+  --color-purple-600: #be185d;
+  --color-purple-700: #9d174d;
+  --color-purple-800: #831843;
+  --color-purple-900: #500724;
+}
+
+:root {
+  --bg-app: #0c0c0c;
+  --bg-sidebar: #121214;
+  --bg-navbar: #0c0c0c;
+  --bg-card: #1c1c1f;
+  --text-primary: #f3f4f6;
+  --text-secondary: #94a3b8;
+  --border-primary: rgba(255, 255, 255, 0.05);
+  --border-secondary: rgba(255, 255, 255, 0.08);
+  --shadow-primary: 0 4px 30px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 12px 20px -8px rgba(206, 90, 140, 0.2);
+  --hover-sidebar-link: rgba(206, 90, 140, 0.1);
+  --accent-color: #ce5a8c;
+}
+
+.light {
+  --bg-app: #f8fafc;
+  --bg-sidebar: #ffffff;
+  --bg-navbar: #ffffff;
+  --bg-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-primary: rgba(0, 0, 0, 0.06);
+  --border-secondary: rgba(0, 0, 0, 0.1);
+  --shadow-primary: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 12px 20px -8px rgba(206, 90, 140, 0.12);
+  --hover-sidebar-link: rgba(206, 90, 140, 0.08);
+  --accent-color: #ce5a8c;
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* Sidebar and Navbar layout boxes */
+aside {
+  background-color: var(--bg-sidebar) !important;
+  border-right: 1px solid var(--border-primary) !important;
+  transition: all 0.2s ease;
+}
+
+header {
+  background-color: var(--bg-navbar) !important;
+  border-bottom: 1px solid var(--border-primary) !important;
+  color: var(--text-primary) !important;
+  transition: all 0.2s ease;
+}
+
+/* Panels (e.g. lists, forms, grids) */
+.glass-panel {
+  background-color: var(--bg-sidebar) !important;
+  border: 1px solid var(--border-primary) !important;
+  box-shadow: var(--shadow-primary) !important;
+  transition: all 0.2s ease;
+}
+
+/* Cards (e.g. stats, details) */
+.glass-card {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-primary) !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(206, 90, 140, 0.4) !important;
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+/* Sidebar links */
+.sidebar-link {
+  transition: all 0.2s ease-in-out;
+  color: var(--text-secondary) !important;
+}
+.sidebar-link:not(.active):hover {
+  background-color: var(--hover-sidebar-link) !important;
+  color: var(--accent-color) !important;
+}
+
+/* Active links in the Sidebar (applied via .active class) */
+.sidebar-link.active {
+  background-color: var(--accent-color) !important;
+  color: #ffffff !important;
+}
+
+/* Global typography overrides inside components */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary) !important;
+  transition: color 0.2s ease;
+}
+span, p, td, th {
+  transition: color 0.2s ease;
+}
+
+/* Input Fields, Selection boxes, Textareas */
+input, select, textarea {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-primary) !important;
+  color: var(--text-primary) !important;
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent-color) !important;
+  outline: none;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-secondary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Light mode text color overrides for hardcoded dark-theme classes */
+.light .text-slate-100,
+.light .text-slate-200,
+.light .text-slate-300,
+.light .text-slate-50,
+.light h1, .light h2, .light h3, .light h4, .light h5 {
+  color: var(--text-primary) !important;
+}
+
+.light .text-slate-400,
+.light .text-slate-500 {
+  color: var(--text-secondary) !important;
+}
+
+/* Compact Stats Cards Styles */
+.stats-card {
+  padding: 1rem !important; /* Compact padding (p-4 equivalent) */
+  border-radius: 1rem !important; /* rounded-2xl to rounded-xl equivalent */
+}
+
+.stats-card h3 {
+  font-size: 1.25rem !important; /* text-2xl/3xl to text-xl equivalent */
+  margin-top: 0.5rem !important; /* mt-4 to mt-2 equivalent */
+  line-height: 1.75rem !important;
+}
+
+.stats-card .p-2 {
+  padding: 0.375rem !important; /* p-2 to p-1.5 equivalent */
+}
