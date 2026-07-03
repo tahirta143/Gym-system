@@ -14,8 +14,8 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const userRole = user.role; // 'super_admin', 'manager', 'trainer', 'accountant'
 
   if (allowedRoles && !allowedRoles.includes(userRole)) {
-    // Logged in but unauthorized role -> redirect to default dashboard landing
-    return <Navigate to="/" replace />;
+    // Logged in but unauthorized role -> redirect to access denied page
+    return <Navigate to="/access-denied" replace />;
   }
 
   return children;

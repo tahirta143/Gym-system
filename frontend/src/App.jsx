@@ -20,6 +20,7 @@ import DietPlans from './pages/DietPlans';
 import Settings from './pages/Settings';
 import ImportData from './pages/ImportData';
 import Payments from './pages/Payments';
+import AccessDenied from './pages/AccessDenied';
 
 // Authenticated layout shell wrapping children
 const AppLayout = ({ children }) => {
@@ -171,6 +172,8 @@ function App() {
             </AppLayout>
           </ProtectedRoute>
         } />
+
+        <Route path="/access-denied" element={<AccessDenied />} />
         
         {/* Catch-all redirects */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -18,16 +18,22 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor to handle session expiration or auth errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      // Ignore checks if on login endpoint to prevent loop
-      if (!error.config.url.includes('login')) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = '/login';
+    if (error.response) {
+      if (error.response.status === 401) {
+        // Session expired / invalid -> Clear storage and redirect to login
+        if (!error.config.url.includes('login')) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          window.location.href = '/login';
+        }
+      } else if (error.response.status === 403) {
+        // Access Forbidden -> Redirect to Access Denied page without logging out
+        if (!error.config.url.includes('login')) {
+          window.location.href = '/access-denied';
+        }
       }
     }
     return Promise.reject(error);

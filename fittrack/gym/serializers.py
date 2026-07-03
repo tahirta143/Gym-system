@@ -53,6 +53,16 @@ class TrainerSerializer(serializers.ModelSerializer):
                   'base_salary', 'commission_pct', 'username', 'password', 'email', 'user_details']
         read_only_fields = ['user']
 
+    def validate_username(self, value):
+        if value and User.objects.filter(username__iexact=value).exists():
+            raise serializers.ValidationError("A user with this username already exists.")
+        return value
+
+    def validate_email(self, value):
+        if value and User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+        return value
+
     def create(self, validated_data):
         username = validated_data.pop('username', None)
         password = validated_data.pop('password', None)
@@ -65,8 +75,11 @@ class TrainerSerializer(serializers.ModelSerializer):
             user = User.objects.create_user(username=username, password=password, email=email, first_name=trainer.name)
             trainer.user = user
             trainer.save()
-            # Create profile
-            Profile.objects.create(user=user, role='trainer', linked_trainer=trainer)
+            # Create or update profile (since User post_save signal may have already created it)
+            Profile.objects.update_or_create(
+                user=user,
+                defaults={'role': 'trainer', 'linked_trainer': trainer}
+            )
 
         return trainer
 
@@ -206,6 +219,24 @@ class UserManageSerializer(serializers.ModelSerializer):
 
     def get_group_names(self, obj):
         return [g.name for g in obj.groups.all()]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        try:
+            data['role'] = instance.profile.role
+        except Profile.DoesNotExist:
+            # Fallback based on groups
+            if instance.groups.filter(name='SuperAdmin').exists():
+                data['role'] = 'super_admin'
+            elif instance.groups.filter(name='Manager').exists():
+                data['role'] = 'manager'
+            elif instance.groups.filter(name='Trainer').exists():
+                data['role'] = 'trainer'
+            elif instance.groups.filter(name='Accountant').exists():
+                data['role'] = 'accountant'
+            else:
+                data['role'] = 'manager'
+        return data
 
     def create(self, validated_data):
         groups = validated_data.pop('groups', [])

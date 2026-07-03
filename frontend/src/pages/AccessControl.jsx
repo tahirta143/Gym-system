@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
-import { Shield, Users, Plus, ShieldCheck, UserPlus, Trash2, FolderPlus, CheckCircle } from 'lucide-react';
+import { Shield, Users, Plus, ShieldCheck, UserPlus, Trash2, FolderPlus, CheckCircle, Edit2 } from 'lucide-react';
 import api from '../utils/api';
 
 // --- Draggable Permission Item ---
@@ -70,6 +70,7 @@ const AccessControl = () => {
 
   // User Accounts Forms
   const [showUserModal, setShowUserModal] = useState(false);
+  const [editUserId, setEditUserId] = useState(null);
   const [newUsername, setNewUsername] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newEmail, setNewEmail] = useState('');
@@ -196,48 +197,92 @@ const AccessControl = () => {
     }
   };
 
-  // --- Create User account ---
-  const handleCreateUser = async (e) => {
+  // --- Create/Edit User account Helpers ---
+  const handleOpenAddUser = () => {
+    setEditUserId(null);
+    setNewUsername('');
+    setNewPassword('');
+    setNewEmail('');
+    setNewFirstName('');
+    setNewLastName('');
+    // Default to 'Manager' group if exists, or first group
+    const managerGroup = groups.find(g => g.name === 'Manager');
+    setNewUserRole(managerGroup ? managerGroup.id.toString() : (groups[0]?.id.toString() || ''));
+    setUserError('');
+    setShowUserModal(true);
+  };
+
+  const handleOpenEditUser = (user) => {
+    setEditUserId(user.id);
+    setNewUsername(user.username);
+    setNewPassword(''); // Empty by default when editing
+    setNewEmail(user.email || '');
+    setNewFirstName(user.first_name || '');
+    setNewLastName(user.last_name || '');
+    // Pre-select group ID
+    const userGroupId = user.groups && user.groups.length > 0 ? user.groups[0].toString() : '';
+    setNewUserRole(userGroupId);
+    setUserError('');
+    setShowUserModal(true);
+  };
+
+  // --- Create or Update User account ---
+  const handleSaveUser = async (e) => {
     e.preventDefault();
     setUserError('');
     try {
-      // Map role to Django Group ID
-      const roleToGroupNames = {
-        super_admin: 'SuperAdmin',
-        manager: 'Manager',
-        trainer: 'Trainer',
-        accountant: 'Accountant'
-      };
-      const groupName = roleToGroupNames[newUserRole];
-      const matchingGroup = groups.find(g => g.name === groupName);
+      const selectedGroup = groups.find(g => g.id === parseInt(newUserRole));
+      
+      // Map group name back to role code
+      let roleCode = 'manager';
+      if (selectedGroup) {
+        if (selectedGroup.name === 'SuperAdmin') roleCode = 'super_admin';
+        else if (selectedGroup.name === 'Manager') roleCode = 'manager';
+        else if (selectedGroup.name === 'Trainer') roleCode = 'trainer';
+        else if (selectedGroup.name === 'Accountant') roleCode = 'accountant';
+        else roleCode = selectedGroup.name.toLowerCase(); // fallback for custom roles
+      }
 
       const payload = {
         username: newUsername,
-        password: newPassword,
         email: newEmail,
         first_name: newFirstName,
         last_name: newLastName,
-        role: newUserRole,
-        groups: matchingGroup ? [matchingGroup.id] : []
+        role: roleCode,
+        groups: selectedGroup ? [selectedGroup.id] : []
       };
 
-      await api.post('users-manage/', payload);
+      if (newPassword) {
+        payload.password = newPassword;
+      }
+
+      if (editUserId) {
+        await api.put(`users-manage/${editUserId}/`, payload);
+      } else {
+        if (!newPassword) {
+          setUserError('Password is required for new accounts.');
+          return;
+        }
+        await api.post('users-manage/', payload);
+      }
+
       setShowUserModal(false);
 
       // Reset form
+      setEditUserId(null);
       setNewUsername('');
       setNewPassword('');
       setNewEmail('');
       setNewFirstName('');
       setNewLastName('');
-      setNewUserRole('manager');
+      setNewUserRole('');
 
       // Refresh users list
       const usersRes = await api.get('users-manage/');
       setUsers(usersRes.data);
     } catch (err) {
       console.error(err);
-      setUserError('Failed to create account. Username or email might be taken.');
+      setUserError('Failed to save account details. Username or email might be taken.');
     }
   };
 
@@ -273,6 +318,29 @@ const AccessControl = () => {
     } catch (err) {
       console.error(err);
       setGroupError('Failed to create role group. Ensure it has a unique name.');
+    }
+  };
+
+  // --- Delete Group ---
+  const handleDeleteGroup = async (id, name) => {
+    const coreGroups = ['SuperAdmin', 'Manager', 'Trainer', 'Accountant'];
+    if (coreGroups.includes(name)) {
+      alert('Default system groups cannot be deleted.');
+      return;
+    }
+    if (window.confirm(`Are you sure you want to delete the "${name}" role group?`)) {
+      try {
+        await api.delete(`groups/${id}/`);
+        // Refresh groups list
+        const groupsRes = await api.get('groups/');
+        setGroups(groupsRes.data);
+        if (selectedGroupId === id.toString()) {
+          setSelectedGroupId(groupsRes.data[0]?.id.toString() || '');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Failed to delete role group.');
+      }
     }
   };
 
@@ -349,7 +417,7 @@ const AccessControl = () => {
               <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold text-slate-200">Staff Accounts Directory</h3>
                 <button
-                  onClick={() => setShowUserModal(true)}
+                  onClick={handleOpenAddUser}
                   className="flex items-center gap-2 px-4 py-2.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-xl shadow-lg transition-all text-xs cursor-pointer"
                 >
                   <UserPlus size={16} />
@@ -381,10 +449,18 @@ const AccessControl = () => {
                             {roleLabels[user.role] || user.role}
                           </span>
                         </td>
-                        <td className="py-4 px-6 text-right">
+                        <td className="py-4 px-6 text-right space-x-2">
+                          <button
+                            onClick={() => handleOpenEditUser(user)}
+                            className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500 hover:text-white transition-all cursor-pointer inline-flex items-center gap-1"
+                            title="Edit User Role / Group"
+                          >
+                            <Edit2 size={15} />
+                          </button>
                           <button
                             onClick={() => handleDeleteUser(user.id)}
                             className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500 hover:text-white transition-all cursor-pointer inline-flex items-center gap-1"
+                            title="Delete User Account"
                           >
                             <Trash2 size={15} />
                           </button>
@@ -505,14 +581,28 @@ const AccessControl = () => {
               <div className="glass-panel p-6 rounded-3xl border border-white/5 space-y-4">
                 <h3 className="text-lg font-bold text-slate-200">Existing Role Groups</h3>
                 <div className="space-y-3">
-                  {groups.map(g => (
-                    <div key={g.id} className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] flex justify-between items-center">
-                      <span className="text-sm font-bold text-slate-200">{g.name}</span>
-                      <span className="text-xxs px-2.5 py-0.5 rounded-full bg-pink-500/10 text-pink-400 font-bold border border-pink-500/20">
-                        {g.permissions?.length || 0} permissions
-                      </span>
-                    </div>
-                  ))}
+                  {groups.map(g => {
+                    const isCore = ['SuperAdmin', 'Manager', 'Trainer', 'Accountant'].includes(g.name);
+                    return (
+                      <div key={g.id} className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] flex justify-between items-center">
+                        <div>
+                          <span className="text-sm font-bold text-slate-200 block">{g.name}</span>
+                          <span className="text-xxs px-2.5 py-0.5 rounded-full bg-pink-500/10 text-pink-400 font-bold border border-pink-500/20 inline-block mt-1">
+                            {g.permissions?.length || 0} permissions
+                          </span>
+                        </div>
+                        {!isCore && (
+                          <button
+                            onClick={() => handleDeleteGroup(g.id, g.name)}
+                            className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500 hover:text-white transition-all cursor-pointer"
+                            title="Delete Role Group"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -525,7 +615,9 @@ const AccessControl = () => {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="glass-panel w-full max-w-md rounded-3xl border border-white/10 overflow-hidden shadow-2xl relative">
             <div className="p-6 border-b border-white/10 flex items-center justify-between">
-              <h3 className="font-bold text-lg text-slate-200">Register Staff User</h3>
+              <h3 className="font-bold text-lg text-slate-200">
+                {editUserId ? 'Edit Staff User Account' : 'Register Staff User'}
+              </h3>
               <button
                 onClick={() => setShowUserModal(false)}
                 className="text-slate-400 hover:text-slate-100 font-bold"
@@ -540,7 +632,7 @@ const AccessControl = () => {
               </div>
             )}
 
-            <form onSubmit={handleCreateUser} className="p-6 space-y-4">
+            <form onSubmit={handleSaveUser} className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">First Name</label>
@@ -591,13 +683,15 @@ const AccessControl = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Password</label>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                  Password {editUserId && <span className="text-slate-500 font-normal lowercase">(leave blank to keep current)</span>}
+                </label>
                 <input
                   type="password"
-                  required
+                  required={!editUserId}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder={editUserId ? "••••••••" : "Enter password"}
                   className="w-full px-4 py-2.5 bg-[var(--bg-card)] border border-[var(--border-primary)] rounded-xl text-[var(--text-primary)] placeholder-slate-500 text-sm focus:outline-none"
                 />
               </div>
@@ -609,10 +703,10 @@ const AccessControl = () => {
                   onChange={(e) => setNewUserRole(e.target.value)}
                   className="w-full px-4 py-2.5 bg-[var(--bg-card)] border border-[var(--border-primary)] rounded-xl text-[var(--text-primary)] text-sm focus:outline-none"
                 >
-                  <option value="super_admin">Owner / Admin</option>
-                  <option value="manager">Front Desk / Manager</option>
-                  <option value="trainer">Trainer</option>
-                  <option value="accountant">Accountant</option>
+                  <option value="">-- Assign Group --</option>
+                  {groups.map(g => (
+                    <option key={g.id} value={g.id.toString()}>{g.name}</option>
+                  ))}
                 </select>
               </div>
 
@@ -626,9 +720,9 @@ const AccessControl = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-xl text-sm shadow-md"
+                  className="px-5 py-2.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-xl text-sm shadow-md cursor-pointer"
                 >
-                  Create User
+                  {editUserId ? 'Save Changes' : 'Create User'}
                 </button>
               </div>
             </form>
