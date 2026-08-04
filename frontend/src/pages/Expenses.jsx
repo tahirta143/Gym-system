@@ -128,7 +128,7 @@ const Expenses = () => {
         </div>
         <button
           onClick={handleOpenAdd}
-          className="flex items-center gap-2 px-5 py-3 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-2xl shadow-lg transition-all text-sm cursor-pointer"
+          className="flex items-center gap-2 px-5 py-3 bg-[#892D56] hover:bg-[#a13868] text-white font-extrabold rounded-2xl shadow-lg transition-all text-sm cursor-pointer"
         >
           <Plus size={18} />
           <span>Log Expense</span>
@@ -264,7 +264,7 @@ const Expenses = () => {
               <h3 className="font-bold text-lg text-slate-200">
                 {editId ? 'Edit Expense Record' : 'Record Operating Expense'}
               </h3>
-              <button 
+              <button
                 onClick={() => setShowModal(false)}
                 className="text-slate-400 hover:text-slate-100 font-bold"
               >

@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'fittrack.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gympro',
+        'NAME': 'gympro_db',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',

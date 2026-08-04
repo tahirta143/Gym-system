@@ -153,7 +153,7 @@ const PTPackages = () => {
         {canModify && (
           <button
             onClick={handleOpenAdd}
-            className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/35 transition-all text-sm cursor-pointer"
+            className="flex items-center gap-2 px-5 py-3 bg-[#892D56] hover:bg-[#a13868] text-white font-bold rounded-2xl shadow-lg transition-all text-sm cursor-pointer"
           >
             <Plus size={18} />
             <span>Assign PT Package</span>
@@ -164,7 +164,7 @@ const PTPackages = () => {
       {/* Table */}
       {loading ? (
         <div className="flex items-center justify-center min-h-[40vh]">
-          <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#892D56] border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <div className="glass-panel rounded-3xl border border-white/5 overflow-hidden">
@@ -197,11 +197,11 @@ const PTPackages = () => {
                         <div className="flex items-center gap-3">
                           <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
                             <div 
-                              className="h-full bg-gradient-to-r from-indigo-500 to-purple-500"
+                              className="h-full bg-[#892D56]"
                               style={{ width: `${(pkg.sessions_used / pkg.sessions_total) * 100}%` }}
                             ></div>
                           </div>
-                          <span className="text-xs font-bold text-indigo-400 shrink-0">
+                          <span className="text-xs font-bold text-[#892D56] shrink-0">
                             {pkg.sessions_used} / {pkg.sessions_total}
                           </span>
                         </div>
@@ -224,7 +224,7 @@ const PTPackages = () => {
                           <>
                             <button
                               onClick={() => handleOpenEdit(pkg)}
-                              className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500 hover:text-white transition-all cursor-pointer"
+                              className="p-1.5 rounded-lg bg-[#892D56]/10 text-[#892D56] border border-[#892D56]/20 hover:bg-[#892D56] hover:text-white transition-all cursor-pointer"
                             >
                               <Edit2 size={16} />
                             </button>
@@ -348,7 +348,7 @@ const PTPackages = () => {
                 <button
                   type="submit"
                   disabled={formLoading}
-                  className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl text-sm shadow-md"
+                  className="px-5 py-2.5 bg-[#892D56] hover:bg-[#a13868] text-white font-bold rounded-xl text-sm shadow-md cursor-pointer"
                 >
                   {formLoading ? 'Saving...' : 'Save Contract'}
                 </button>

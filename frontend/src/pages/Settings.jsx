@@ -29,7 +29,7 @@ const Settings = () => {
     try {
       const res = await api.get('settings/');
       setSettings(res.data);
-      
+
       // Load inputs if records already exist
       res.data.forEach(item => {
         if (item.key === 'gym_name') setGymName(item.value);
@@ -107,22 +107,20 @@ const Settings = () => {
       <div className="flex gap-4 border-b border-[var(--border-primary)] pb-2">
         <button
           onClick={() => setActiveTab('general')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
-            activeTab === 'general' 
-              ? 'bg-[#ce5a8c] text-[#0c0c0c]' 
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${activeTab === 'general'
+              ? 'bg-[#892D56] text-white'
               : 'text-slate-400 hover:text-[var(--text-primary)] hover:bg-[var(--hover-sidebar-link)]'
-          }`}
+            }`}
         >
           <Building2 size={16} />
           <span>General Config</span>
         </button>
         <button
           onClick={() => setActiveTab('gateways')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
-            activeTab === 'gateways' 
-              ? 'bg-[#ce5a8c] text-[#0c0c0c]' 
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${activeTab === 'gateways'
+              ? 'bg-[#892D56] text-white'
               : 'text-slate-400 hover:text-[var(--text-primary)] hover:bg-[var(--hover-sidebar-link)]'
-          }`}
+            }`}
         >
           <CreditCard size={16} />
           <span>Payment Gateways</span>
@@ -131,7 +129,7 @@ const Settings = () => {
 
       {/* Form Content */}
       <form onSubmit={handleSave} className="max-w-2xl glass-panel p-8 rounded-3xl border border-white/5 space-y-6">
-        
+
         {activeTab === 'general' && (
           <div className="space-y-6">
             <div>
@@ -218,7 +216,7 @@ const Settings = () => {
             <button
               type="submit"
               disabled={saving}
-              className="flex items-center gap-2 px-5 py-3 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-2xl shadow-lg transition-all text-sm cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-2 px-5 py-3 bg-[#892D56] hover:bg-[#a13868] text-white font-extrabold rounded-2xl shadow-lg transition-all text-sm cursor-pointer disabled:opacity-50"
             >
               <Save size={18} />
               <span>{saving ? 'Saving System Settings...' : 'Save Configuration'}</span>

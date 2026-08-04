@@ -154,7 +154,7 @@ const Sidebar = () => {
                 to={link.path}
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-3 rounded-xl sidebar-link text-sm font-medium ${isActive
-                    ? 'bg-pink-500 text-white shadow-lg shadow-pink-500/20 active'
+                    ? 'bg-[#892D56] text-white active'
                     : 'text-slate-400'
                   }`
                 }

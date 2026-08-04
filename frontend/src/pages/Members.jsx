@@ -10,7 +10,7 @@ const Members = () => {
   const [statusFilter, setStatusFilter] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState(null);
-  
+
   // Form State
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -18,7 +18,7 @@ const Members = () => {
   const [joinDate, setJoinDate] = useState(new Date().toISOString().split('T')[0]);
   const [planId, setPlanId] = useState('');
   const [status, setStatus] = useState('active');
-  
+
   const [error, setError] = useState('');
   const [formLoading, setFormLoading] = useState(false);
 
@@ -117,9 +117,9 @@ const Members = () => {
   };
 
   const filteredMembers = members.filter(member => {
-    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          member.phone.includes(searchTerm) || 
-                          (member.email && member.email.toLowerCase().includes(searchTerm.toLowerCase()));
+    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      member.phone.includes(searchTerm) ||
+      (member.email && member.email.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesStatus = statusFilter === '' || member.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -155,7 +155,7 @@ const Members = () => {
         {canModify && (
           <button
             onClick={handleOpenAdd}
-            className="flex items-center gap-2 px-5 py-3 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-2xl shadow-lg transition-all text-sm self-start md:self-auto cursor-pointer"
+            className="flex items-center gap-2 px-5 py-3 bg-[#892D56] hover:bg-[#a13868] text-white font-extrabold rounded-2xl shadow-lg transition-all text-sm self-start md:self-auto cursor-pointer"
           >
             <Plus size={18} />
             <span>Add Member</span>
@@ -168,13 +168,13 @@ const Members = () => {
         <div className="glass-card stats-card flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold text-slate-400">Total Directory</span>
-            <div className="p-2 bg-pink-500/10 rounded-xl text-[#ce5a8c]">
+            <div className="p-2 bg-[#892D56]/20 rounded-xl text-[#892D56]">
               <Users size={20} />
             </div>
           </div>
           <div className="mt-4">
             <h3 className="text-2xl font-bold text-slate-100">{totalCount} Members</h3>
-            <p className="text-xs text-pink-400 font-medium mt-1">Total registered accounts</p>
+            <p className="text-xs text-[#892D56] font-medium mt-1">Total registered accounts</p>
           </div>
         </div>
 
@@ -247,7 +247,7 @@ const Members = () => {
       {/* Members Table */}
       {loading ? (
         <div className="flex items-center justify-center min-h-[40vh]">
-          <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#892D56] border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <div className="glass-panel rounded-3xl border border-white/5 overflow-hidden">
@@ -290,7 +290,7 @@ const Members = () => {
                           <>
                             <button
                               onClick={() => handleOpenEdit(member)}
-                              className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500 hover:text-white transition-all cursor-pointer"
+                              className="p-1.5 rounded-lg bg-[#892D56]/10 text-[#892D56] border border-[#892D56]/20 hover:bg-[#892D56] hover:text-white transition-all cursor-pointer"
                               title="Edit Member"
                             >
                               <Edit2 size={16} />
@@ -324,7 +324,7 @@ const Members = () => {
               <h3 className="font-bold text-lg text-slate-200">
                 {editId ? 'Edit Member Details' : 'Register New Member'}
               </h3>
-              <button 
+              <button
                 onClick={() => setShowModal(false)}
                 className="text-slate-400 hover:text-slate-100 font-bold"
               >
@@ -427,7 +427,7 @@ const Members = () => {
                 <button
                   type="submit"
                   disabled={formLoading}
-                  className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl text-sm shadow-md"
+                  className="px-5 py-2.5 bg-[#892D56] hover:bg-[#a13868] text-white font-bold rounded-xl text-sm shadow-md cursor-pointer"
                 >
                   {formLoading ? 'Saving...' : 'Save Member'}
                 </button>

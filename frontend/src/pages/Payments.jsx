@@ -83,7 +83,7 @@ const Payments = () => {
   // Filter Logic
   const filteredFees = fees.filter(fee => {
     const matchesSearch = fee.member_details?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          fee.member_details?.phone.includes(searchTerm);
+      fee.member_details?.phone.includes(searchTerm);
     const matchesStatus = statusFilter === '' || fee.status === statusFilter;
     const matchesMethod = methodFilter === '' || fee.method === methodFilter;
     return matchesSearch && matchesStatus && matchesMethod;
@@ -236,7 +236,7 @@ const Payments = () => {
                       {fee.status !== 'paid' ? (
                         <button
                           onClick={() => handleOpenPay(fee)}
-                          className="px-3.5 py-1.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-black rounded-lg text-xs cursor-pointer transition-colors"
+                          className="px-3.5 py-1.5 bg-[#892D56] hover:bg-[#a13868] text-white font-black rounded-lg text-xs cursor-pointer transition-colors"
                         >
                           Settle Pay
                         </button>
@@ -285,7 +285,7 @@ const Payments = () => {
               <div className="p-4 bg-white/5 border border-white/5 rounded-xl text-xs">
                 <div className="flex justify-between border-t border-white/10 pt-2 text-sm">
                   <span className="font-bold text-slate-300">Total Payable:</span>
-                  <span className="font-black text-[#ce5a8c]">PKR {parseFloat(activeFee.amount).toLocaleString()}</span>
+                  <span className="font-black text-[#892D56]">PKR {parseFloat(activeFee.amount).toLocaleString()}</span>
                 </div>
               </div>
 
@@ -300,7 +300,7 @@ const Payments = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-black rounded-xl text-sm shadow-md cursor-pointer"
+                  className="px-5 py-2.5 bg-[#892D56] hover:bg-[#a13868] text-white font-black rounded-xl text-sm shadow-md cursor-pointer"
                 >
                   {submitting ? 'Updating...' : 'Settle Invoice'}
                 </button>

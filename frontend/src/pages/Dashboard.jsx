@@ -43,7 +43,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[70vh]">
-        <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-[#892D56] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -65,8 +65,8 @@ const Dashboard = () => {
       {
         label: 'Revenue (PKR)',
         data: data.chart_data.map(d => d.revenue),
-        backgroundColor: 'rgba(206, 90, 140, 0.75)',
-        borderColor: 'rgb(206, 90, 140)',
+        backgroundColor: 'rgba(137, 45, 86, 0.85)',
+        borderColor: 'rgb(137, 45, 86)',
         borderRadius: 8,
       },
       {
@@ -86,8 +86,8 @@ const Dashboard = () => {
       {
         label: 'New Registrations',
         data: data.chart_data.map(d => d.count),
-        backgroundColor: 'rgba(245, 158, 11, 0.75)',
-        borderColor: 'rgb(245, 158, 11)',
+        backgroundColor: 'rgba(137, 45, 86, 0.85)',
+        borderColor: 'rgb(137, 45, 86)',
         borderRadius: 8,
       }
     ]
@@ -135,13 +135,13 @@ const Dashboard = () => {
             <div className="glass-card stats-card flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold text-slate-400">Total Revenue</span>
-                <div className="p-2 bg-indigo-500/10 rounded-xl text-indigo-400">
+                <div className="p-2 bg-[#892D56]/20 rounded-xl text-[#892D56]">
                   <TrendingUp size={20} />
                 </div>
               </div>
               <div className="mt-4">
                 <h3 className="text-2xl font-bold text-slate-100">PKR {data.summary.total_revenue.toLocaleString()}</h3>
-                <p className="text-xs text-indigo-400 font-medium mt-1">Overall collections</p>
+                <p className="text-xs text-[#892D56] font-medium mt-1">Overall collections</p>
               </div>
             </div>
 
@@ -214,7 +214,7 @@ const Dashboard = () => {
 
             <div className="glass-panel p-6 rounded-3xl border border-white/5">
               <div className="flex items-center gap-2 mb-6">
-                <Award className="text-indigo-400 h-5 w-5 animate-spin" />
+                <Award className="text-[#892D56] h-5 w-5 animate-spin" />
                 <h3 className="font-bold text-lg text-slate-200">Top Performing Trainers</h3>
               </div>
               <div className="space-y-4">
@@ -224,7 +224,7 @@ const Dashboard = () => {
                   data.trainer_rankings.map((trainer, index) => (
                     <div key={trainer.id} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-indigo-600/20 text-indigo-400 font-bold flex items-center justify-center text-sm">
+                        <div className="w-8 h-8 rounded-lg bg-[#892D56]/20 text-[#892D56] font-bold flex items-center justify-center text-sm">
                           #{index + 1}
                         </div>
                         <div>
@@ -233,7 +233,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-xs text-indigo-400 font-bold">{trainer.active_clients} PT Clients</p>
+                        <p className="text-xs text-[#892D56] font-bold">{trainer.active_clients} PT Clients</p>
                         <p className="text-xxs text-slate-400 font-semibold mt-0.5">Comm: PKR {trainer.commission_total.toLocaleString()}</p>
                       </div>
                     </div>
@@ -252,13 +252,13 @@ const Dashboard = () => {
             <div className="glass-card stats-card flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold text-slate-400">Total Members</span>
-                <div className="p-2 bg-indigo-500/10 rounded-xl text-indigo-400">
+                <div className="p-2 bg-[#892D56]/20 rounded-xl text-[#892D56]">
                   <Users size={20} />
                 </div>
               </div>
               <div className="mt-4">
                 <h3 className="text-2xl font-bold text-slate-100">{data.summary.total_members}</h3>
-                <p className="text-xs text-indigo-400 font-medium mt-1">{data.summary.active_members} active subscriptions</p>
+                <p className="text-xs text-[#892D56] font-medium mt-1">{data.summary.active_members} active subscriptions</p>
               </div>
             </div>
 
@@ -324,13 +324,13 @@ const Dashboard = () => {
             <div className="glass-card stats-card flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold text-slate-400">Active Clients</span>
-                <div className="p-2 bg-indigo-500/10 rounded-xl text-indigo-400">
+                <div className="p-2 bg-[#892D56]/20 rounded-xl text-[#892D56]">
                   <Users size={20} />
                 </div>
               </div>
               <div className="mt-4">
                 <h3 className="text-2xl font-bold text-slate-100">{data.summary.active_clients}</h3>
-                <p className="text-xs text-indigo-400 font-medium mt-1">Assigned PT members</p>
+                <p className="text-xs text-[#892D56] font-medium mt-1">Assigned PT members</p>
               </div>
             </div>
 
@@ -350,13 +350,13 @@ const Dashboard = () => {
             <div className="glass-card stats-card flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold text-slate-400">Monthly Commission</span>
-                <div className="p-2 bg-indigo-500/10 rounded-xl text-indigo-400">
+                <div className="p-2 bg-[#892D56]/20 rounded-xl text-[#892D56]">
                   <DollarSign size={20} />
                 </div>
               </div>
               <div className="mt-4">
                 <h3 className="text-2xl font-bold text-slate-100">PKR {data.summary.commission_earned.toLocaleString()}</h3>
-                <p className="text-xs text-indigo-400 font-medium mt-1">Earned from PT fees this month</p>
+                <p className="text-xs text-[#892D56] font-medium mt-1">Earned from PT fees this month</p>
               </div>
             </div>
 
@@ -401,11 +401,11 @@ const Dashboard = () => {
                           <div className="flex items-center gap-3">
                             <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
                               <div 
-                                className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" 
+                                className="h-full bg-[#892D56] rounded-full" 
                                 style={{ width: `${(client.sessions_used / client.sessions_total) * 100}%` }}
                               ></div>
                             </div>
-                            <span className="text-xs font-bold text-indigo-400">
+                            <span className="text-xs font-bold text-[#892D56]">
                               {Math.round((client.sessions_used / client.sessions_total) * 100)}%
                             </span>
                           </div>

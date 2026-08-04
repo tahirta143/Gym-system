@@ -35,7 +35,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#0c0c0c] font-sans selection:bg-[#ce5a8c] selection:text-white">
+    <div className="min-h-screen flex bg-[#0c0c0c] font-sans selection:bg-[#892D56] selection:text-white">
 
       {/* --- Left Column: Hero Gym View (Hidden on mobile) --- */}
       <div
@@ -48,7 +48,7 @@ const Login = () => {
         {/* Content bottom-left */}
         <div className="relative z-10 space-y-4 max-w-lg">
           {/* Fitness Arena Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#ce5a8c] text-white rounded-lg text-xs font-extrabold uppercase tracking-wider shadow-lg">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#892D56] text-white rounded-lg text-xs font-extrabold uppercase tracking-wider shadow-lg">
             <Dumbbell className="h-4.5 w-4.5" />
             <span>Fitness Arena</span>
           </div>
@@ -58,7 +58,7 @@ const Login = () => {
             <h1 className="text-5xl font-black tracking-tight text-white leading-tight">
               TRAIN HARD.
             </h1>
-            <h1 className="text-5xl font-black tracking-tight text-[#ce5a8c] leading-tight">
+            <h1 className="text-5xl font-black tracking-tight text-[#892D56] leading-tight">
               STAY STRONG.
             </h1>
           </div>
@@ -87,8 +87,8 @@ const Login = () => {
             <p className="text-slate-400 text-xs mt-2 font-medium">
               Sign in to manage your gym operations.
             </p>
-            {/* Pink Divider */}
-            <div className="w-8 h-1.5 bg-[#ce5a8c] mt-4 rounded-full"></div>
+            {/* Color Accent Divider */}
+            <div className="w-8 h-1.5 bg-[#892D56] mt-4 rounded-full"></div>
           </div>
 
           {/* Error Message */}
@@ -111,7 +111,7 @@ const Login = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 bg-[#1c1c1f] border border-white/5 rounded-lg text-slate-200 placeholder-slate-600 text-xs focus:outline-none focus:border-[#ce5a8c] focus:ring-1 focus:ring-[#ce5a8c] transition-all font-semibold font-mono"
+                className="w-full px-4 py-3 bg-[#1c1c1f] border border-white/5 rounded-lg text-slate-200 placeholder-slate-600 text-xs focus:outline-none focus:border-[#892D56] focus:ring-1 focus:ring-[#892D56] transition-all font-semibold font-mono"
               />
             </div>
 
@@ -125,14 +125,14 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 bg-[#1c1c1f] border border-white/5 rounded-lg text-slate-200 placeholder-slate-600 text-xs focus:outline-none focus:border-[#ce5a8c] focus:ring-1 focus:ring-[#ce5a8c] transition-all font-semibold font-mono"
+                className="w-full px-4 py-3 bg-[#1c1c1f] border border-white/5 rounded-lg text-slate-200 placeholder-slate-600 text-xs focus:outline-none focus:border-[#892D56] focus:ring-1 focus:ring-[#892D56] transition-all font-semibold font-mono"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-black rounded-lg shadow-md transition-all text-xs tracking-widest uppercase select-none cursor-pointer"
+              className="w-full py-3.5 bg-[#892D56] hover:bg-[#a13868] text-white font-black rounded-lg shadow-md transition-all text-xs tracking-widest uppercase select-none cursor-pointer"
             >
               {loading ? 'Logging In...' : 'Login'}
             </button>

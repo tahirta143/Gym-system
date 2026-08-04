@@ -109,7 +109,7 @@ const Plans = () => {
         </div>
         <button
           onClick={handleOpenAdd}
-          className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/35 transition-all text-sm"
+          className="flex items-center gap-2 px-5 py-3 bg-[#892D56] hover:bg-[#a13868] text-white font-bold rounded-2xl shadow-lg transition-all text-sm cursor-pointer"
         >
           <Plus size={18} />
           <span>Add Plan</span>
@@ -118,7 +118,7 @@ const Plans = () => {
 
       {loading ? (
         <div className="flex items-center justify-center min-h-[40vh]">
-          <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#892D56] border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -128,15 +128,15 @@ const Plans = () => {
             plans.map((plan) => (
               <div 
                 key={plan.id} 
-                className="glass-panel p-6 rounded-3xl border border-white/5 flex flex-col justify-between shadow-xl relative overflow-hidden group hover:border-indigo-500/20 hover:shadow-indigo-500/5 transition-all duration-300"
+                className="glass-panel p-6 rounded-3xl border border-white/5 flex flex-col justify-between shadow-xl relative overflow-hidden group hover:border-[#892D56]/40 transition-all duration-300"
               >
                 <div>
                   {/* Plan Badge / Title */}
                   <div className="flex justify-between items-start mb-4">
-                    <h3 className="font-extrabold text-xl text-slate-200 group-hover:text-indigo-400 transition-colors">
+                    <h3 className="font-extrabold text-xl text-slate-200 group-hover:text-[#892D56] transition-colors">
                       {plan.name}
                     </h3>
-                    <span className="text-xxs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                    <span className="text-xxs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#892D56]/20 text-[#892D56] border border-[#892D56]/30">
                       {plan.duration_months} Month{plan.duration_months > 1 ? 's' : ''}
                     </span>
                   </div>
@@ -271,7 +271,7 @@ const Plans = () => {
                 <button
                   type="submit"
                   disabled={formLoading}
-                  className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl text-sm shadow-md"
+                  className="px-5 py-2.5 bg-[#892D56] hover:bg-[#a13868] text-white font-bold rounded-xl text-sm shadow-md cursor-pointer"
                 >
                   {formLoading ? 'Saving...' : 'Save Plan'}
                 </button>

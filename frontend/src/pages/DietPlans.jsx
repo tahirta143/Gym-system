@@ -9,7 +9,7 @@ const DietPlans = () => {
   const [activeDay, setActiveDay] = useState('Monday');
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  
+
   // New Meal Form State
   const [mealTime, setMealTime] = useState('');
   const [mealFood, setMealFood] = useState('');
@@ -18,7 +18,7 @@ const DietPlans = () => {
 
   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
   const canModify = ['super_admin', 'trainer', 'manager'].includes(currentUser.role);
-  
+
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const DietPlans = () => {
           meals: updatedMeals
         });
       }
-      
+
       // Clear form & refetch
       setMealTime('');
       setMealFood('');
@@ -108,11 +108,11 @@ const DietPlans = () => {
 
   const handleDeleteMeal = async (indexToDelete) => {
     if (!activeDayDiet) return;
-    
+
     if (window.confirm('Delete this meal from the diet plan?')) {
       setSaving(true);
       const updatedMeals = mealList.filter((_, idx) => idx !== indexToDelete);
-      
+
       try {
         if (updatedMeals.length === 0) {
           // Delete plan record entirely if no meals remain
@@ -146,7 +146,7 @@ const DietPlans = () => {
 
       {/* Selector and Main Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Left column: Selector & Form */}
         <div className="space-y-6">
           <div className="glass-panel p-6 rounded-3xl border border-white/5 space-y-4">
@@ -218,7 +218,7 @@ const DietPlans = () => {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full py-3 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-black rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer disabled:opacity-50"
+                  className="w-full py-3 bg-[#892D56] hover:bg-[#a13868] text-white font-black rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer disabled:opacity-50"
                 >
                   {saving ? 'Saving...' : 'Add Meal'}
                 </button>
@@ -235,11 +235,10 @@ const DietPlans = () => {
               <button
                 key={day}
                 onClick={() => setActiveDay(day)}
-                className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer shrink-0 ${
-                  activeDay === day 
-                    ? 'bg-[#ce5a8c] text-[#0c0c0c]' 
+                className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer shrink-0 ${activeDay === day
+                    ? 'bg-[#892D56] text-white'
                     : 'text-slate-400 hover:text-[var(--text-primary)] hover:bg-[var(--hover-sidebar-link)]'
-                }`}
+                  }`}
               >
                 {day}
               </button>
@@ -250,7 +249,7 @@ const DietPlans = () => {
             <div className="text-center py-20 text-sm text-slate-500">Loading diet plan...</div>
           ) : mealList.length === 0 ? (
             <div className="glass-panel p-12 rounded-3xl border border-white/5 text-center flex flex-col items-center justify-center space-y-3">
-              <div className="p-3 bg-pink-500/10 rounded-full text-[#ce5a8c]">
+              <div className="p-3 bg-[#892D56]/20 rounded-full text-[#892D56]">
                 <Coffee size={28} />
               </div>
               <h4 className="text-md font-bold text-slate-300">No Meals Logged for {activeDay}</h4>
@@ -261,7 +260,7 @@ const DietPlans = () => {
               {mealList.map((meal, idx) => (
                 <div key={idx} className="glass-card p-4 rounded-xl flex justify-between items-center border border-[var(--border-primary)]">
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 bg-pink-500/10 rounded-lg text-[#ce5a8c]">
+                    <div className="p-2.5 bg-[#892D56]/20 rounded-lg text-[#892D56]">
                       <Coffee size={18} />
                     </div>
                     <div>

@@ -67,11 +67,11 @@ const ImportData = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Left Form Panel */}
         <div className="lg:col-span-2 space-y-6">
           <form onSubmit={handleUpload} className="glass-panel p-8 rounded-3xl border border-white/5 space-y-6">
-            
+
             {/* Target Select */}
             <div>
               <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Import Target Entity</label>
@@ -83,7 +83,7 @@ const ImportData = () => {
                     value="members"
                     checked={targetType === 'members'}
                     onChange={() => { setTargetType('members'); setResult(null); }}
-                    className="accent-pink-500"
+                    className="accent-[#892D56]"
                   />
                   <span>Gym Members</span>
                 </label>
@@ -94,7 +94,7 @@ const ImportData = () => {
                     value="trainers"
                     checked={targetType === 'trainers'}
                     onChange={() => { setTargetType('trainers'); setResult(null); }}
-                    className="accent-pink-500"
+                    className="accent-[#892D56]"
                   />
                   <span>Personal Trainers</span>
                 </label>
@@ -102,7 +102,7 @@ const ImportData = () => {
             </div>
 
             {/* Drag & Drop Upload field */}
-            <div className="border-2 border-dashed border-[var(--border-primary)] rounded-2xl p-8 text-center bg-[var(--bg-card)] hover:border-pink-500/50 transition-colors flex flex-col items-center justify-center space-y-3">
+            <div className="border-2 border-dashed border-[var(--border-primary)] rounded-2xl p-8 text-center bg-[var(--bg-card)] hover:border-[#892D56]/50 transition-colors flex flex-col items-center justify-center space-y-3">
               <Upload size={32} className="text-slate-400" />
               <div className="text-sm font-semibold text-slate-200">
                 {file ? file.name : 'Select or drop your CSV file here'}
@@ -135,7 +135,7 @@ const ImportData = () => {
             <button
               type="submit"
               disabled={uploading}
-              className="w-full py-3.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-black rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer disabled:opacity-50"
+              className="w-full py-3.5 bg-[#892D56] hover:bg-[#a13868] text-white font-black rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer disabled:opacity-50"
             >
               {uploading ? 'Processing File...' : 'Begin Batch Import'}
             </button>
@@ -182,14 +182,14 @@ const ImportData = () => {
         <div className="space-y-6">
           <div className="glass-panel p-6 rounded-3xl border border-white/5 space-y-4">
             <h3 className="text-md font-bold text-slate-200 flex items-center gap-2">
-              <FileText size={18} className="text-pink-500" />
+              <FileText size={18} className="text-[#892D56]" />
               <span>CSV File Templates</span>
             </h3>
 
             {targetType === 'members' ? (
               <div className="space-y-3 text-xs leading-relaxed text-slate-400">
                 <p>Ensure your CSV headers match exactly (case-sensitive, comma delimited):</p>
-                <div className="p-3 bg-black/30 rounded-xl font-mono text-[10px] text-pink-400 select-all overflow-x-auto whitespace-nowrap">
+                <div className="p-3 bg-black/30 rounded-xl font-mono text-[10px] text-[#892D56] select-all overflow-x-auto whitespace-nowrap">
                   name,phone,email,join_date,plan,status
                 </div>
                 <ul className="list-disc pl-4 space-y-1.5">
@@ -203,7 +203,7 @@ const ImportData = () => {
             ) : (
               <div className="space-y-3 text-xs leading-relaxed text-slate-400">
                 <p>Ensure your CSV headers match exactly (case-sensitive, comma delimited):</p>
-                <div className="p-3 bg-black/30 rounded-xl font-mono text-[10px] text-pink-400 select-all overflow-x-auto whitespace-nowrap">
+                <div className="p-3 bg-black/30 rounded-xl font-mono text-[10px] text-[#892D56] select-all overflow-x-auto whitespace-nowrap">
                   name,phone,specialization,salary_type,base_salary,commission_pct
                 </div>
                 <ul className="list-disc pl-4 space-y-1.5">

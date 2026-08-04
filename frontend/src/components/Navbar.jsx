@@ -4,7 +4,7 @@ import { Calendar, Sun, Moon } from 'lucide-react';
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const role = user.role || 'manager';
-  
+
   // Theme state: dark is default, light is alternative
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
@@ -53,7 +53,7 @@ const Navbar = () => {
         {/* Light/Dark Toggle Button */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-xl bg-white/5 border border-white/5 text-slate-400 hover:text-[#ce5a8c] hover:bg-white/10 transition-all cursor-pointer"
+          className="p-2 rounded-xl bg-white/5 border border-white/5 text-slate-400 hover:text-[#892D56] hover:bg-white/10 transition-all cursor-pointer"
           title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
         >
           {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}

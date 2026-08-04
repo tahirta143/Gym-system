@@ -140,7 +140,7 @@ const Trainers = () => {
         {isSuperAdmin && (
           <button
             onClick={handleOpenAdd}
-            className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/35 transition-all text-sm cursor-pointer"
+            className="flex items-center gap-2 px-5 py-3 bg-[#892D56] hover:bg-[#a13868] text-white font-bold rounded-2xl shadow-lg transition-all text-sm cursor-pointer"
           >
             <Plus size={18} />
             <span>Add Trainer</span>
@@ -150,7 +150,7 @@ const Trainers = () => {
 
       {loading ? (
         <div className="flex items-center justify-center min-h-[40vh]">
-          <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#892D56] border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -160,13 +160,13 @@ const Trainers = () => {
             trainers.map((trainer) => (
               <div 
                 key={trainer.id} 
-                className="glass-panel p-6 rounded-3xl border border-white/5 flex flex-col justify-between shadow-xl group hover:border-indigo-500/20 hover:shadow-indigo-500/5 transition-all duration-300"
+                className="glass-panel p-6 rounded-3xl border border-white/5 flex flex-col justify-between shadow-xl group hover:border-[#892D56]/40 transition-all duration-300"
               >
                 <div>
                   {/* Header info */}
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="font-extrabold text-xl text-slate-200 group-hover:text-indigo-400 transition-colors">
+                      <h3 className="font-extrabold text-xl text-slate-200 group-hover:text-[#892D56] transition-colors">
                         {trainer.name}
                       </h3>
                       <p className="text-xs text-indigo-400 font-semibold mt-0.5">{trainer.specialization}</p>
@@ -386,7 +386,7 @@ const Trainers = () => {
                 <button
                   type="submit"
                   disabled={formLoading}
-                  className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl text-sm shadow-md"
+                  className="px-5 py-2.5 bg-[#892D56] hover:bg-[#a13868] text-white font-bold rounded-xl text-sm shadow-md cursor-pointer"
                 >
                   {formLoading ? 'Saving...' : 'Save Trainer'}
                 </button>

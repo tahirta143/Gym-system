@@ -33,7 +33,7 @@ const Reports = () => {
 
   return (
     <div className="space-y-8 select-none print:p-0">
-      
+
       {/* Header */}
       <div className="flex items-center justify-between print:hidden">
         <div>
@@ -46,7 +46,7 @@ const Reports = () => {
         </div>
         <button
           onClick={handlePrint}
-          className="flex items-center gap-2 px-5 py-3 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-2xl shadow-lg transition-all text-sm cursor-pointer"
+          className="flex items-center gap-2 px-5 py-3 bg-[#892D56] hover:bg-[#a13868] text-white font-extrabold rounded-2xl shadow-lg transition-all text-sm cursor-pointer"
         >
           <Printer size={18} />
           <span>Print Ledger</span>
@@ -62,17 +62,17 @@ const Reports = () => {
 
       {loading ? (
         <div className="flex items-center justify-center min-h-[40vh] print:hidden">
-          <div className="w-10 h-10 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#892D56] border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <>
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 print:grid-cols-3 print:gap-4">
-            
+
             <div className="glass-card p-6 rounded-2xl flex flex-col justify-between print:border print:border-slate-300 print:bg-white print:text-slate-900">
               <div className="flex items-center justify-between print:hidden">
                 <span className="text-sm font-semibold text-slate-400">Cumulative Revenue</span>
-                <div className="p-2 bg-pink-500/10 rounded-xl text-[#ce5a8c]">
+                <div className="p-2 bg-[#892D56]/20 rounded-xl text-[#892D56]">
                   <TrendingUp size={20} />
                 </div>
               </div>
@@ -81,7 +81,7 @@ const Reports = () => {
                 <h3 className="text-2xl font-bold text-slate-100 print:text-slate-900">
                   PKR {cumulativeRevenue.toLocaleString()}
                 </h3>
-                <p className="text-xs text-pink-400 print:text-slate-600 font-medium mt-1">Overall intake streams</p>
+                <p className="text-xs text-[#892D56] print:text-slate-600 font-medium mt-1">Overall intake streams</p>
               </div>
             </div>
 
@@ -133,7 +133,7 @@ const Reports = () => {
                     <th className="py-4 px-6">Billing Period</th>
                     <th className="py-4 px-6 text-right">Fee Collections</th>
                     <th className="py-4 px-6 text-right">Late Charges</th>
-                    <th className="py-4 px-6 text-right font-semibold text-pink-400 print:text-pink-600">Total Revenue</th>
+                    <th className="py-4 px-6 text-right font-semibold text-[#892D56] print:text-[#892D56]">Total Revenue</th>
                     <th className="py-4 px-6 text-right">Operating Spend</th>
                     <th className="py-4 px-6 text-right">Payroll Cost</th>
                     <th className="py-4 px-6 text-right font-semibold text-rose-400 print:text-rose-600">Total Expenses</th>
@@ -157,7 +157,7 @@ const Reports = () => {
                         <td className="py-4 px-6 text-right font-mono text-slate-300 print:text-slate-800">
                           PKR {parseFloat(item.late_fees_collected).toLocaleString()}
                         </td>
-                        <td className="py-4 px-6 text-right font-mono font-bold text-pink-400 print:text-pink-600">
+                        <td className="py-4 px-6 text-right font-mono font-bold text-[#892D56] print:text-[#892D56]">
                           PKR {parseFloat(item.total_revenue).toLocaleString()}
                         </td>
                         <td className="py-4 px-6 text-right font-mono text-slate-300 print:text-slate-800">
@@ -169,9 +169,8 @@ const Reports = () => {
                         <td className="py-4 px-6 text-right font-mono font-bold text-rose-400 print:text-rose-600">
                           -PKR {parseFloat(item.total_expenses).toLocaleString()}
                         </td>
-                        <td className={`py-4 px-6 text-right font-mono font-extrabold text-base ${
-                          parseFloat(item.net_profit) >= 0 ? 'text-emerald-400 print:text-emerald-700' : 'text-rose-400 print:text-rose-700'
-                        }`}>
+                        <td className={`py-4 px-6 text-right font-mono font-extrabold text-base ${parseFloat(item.net_profit) >= 0 ? 'text-emerald-400 print:text-emerald-700' : 'text-rose-400 print:text-rose-700'
+                          }`}>
                           {parseFloat(item.net_profit) >= 0 ? '+' : ''}PKR {parseFloat(item.net_profit).toLocaleString()}
                         </td>
                       </tr>

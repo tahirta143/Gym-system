@@ -17,7 +17,7 @@ const DraggableItem = ({ id, name }) => {
       style={style}
       {...listeners}
       {...attributes}
-      className={`p-3 mb-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] text-xs text-[var(--text-primary)] cursor-grab active:cursor-grabbing hover:border-pink-500/40 transition-colors font-semibold flex items-center justify-between ${isDragging ? 'opacity-40 ring-2 ring-pink-500/50 scale-95' : ''
+      className={`p-3 mb-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] text-xs text-[var(--text-primary)] cursor-grab active:cursor-grabbing hover:border-[#892D56]/40 transition-colors font-semibold flex items-center justify-between ${isDragging ? 'opacity-40 ring-2 ring-[#892D56]/50 scale-95' : ''
         }`}
     >
       <span>{name}</span>
@@ -33,12 +33,12 @@ const DroppableContainer = ({ id, title, children, count }) => {
   return (
     <div
       ref={setNodeRef}
-      className={`glass-panel p-5 rounded-3xl min-h-[450px] border flex flex-col transition-all duration-200 ${isOver ? 'bg-pink-500/5 border-pink-500/50 shadow-pink-500/5' : 'border-[var(--border-primary)] bg-[var(--bg-sidebar)]'
+      className={`glass-panel p-5 rounded-3xl min-h-[450px] border flex flex-col transition-all duration-200 ${isOver ? 'bg-[#892D56]/10 border-[#892D56]/50 shadow-[#892D56]/10' : 'border-[var(--border-primary)] bg-[var(--bg-sidebar)]'
         }`}
     >
       <div className="flex justify-between items-center mb-4 pb-3 border-b border-[var(--border-primary)]">
         <h4 className="font-bold text-sm text-[var(--text-primary)]">{title}</h4>
-        <span className="text-xxs px-2.5 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-primary)] text-pink-400 font-bold font-mono">
+        <span className="text-xxs px-2.5 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-primary)] text-[#892D56] font-bold font-mono">
           {count} items
         </span>
       </div>
@@ -232,7 +232,7 @@ const AccessControl = () => {
     setUserError('');
     try {
       const selectedGroup = groups.find(g => g.id === parseInt(newUserRole));
-      
+
       // Map group name back to role code
       let roleCode = 'manager';
       if (selectedGroup) {
@@ -376,8 +376,8 @@ const AccessControl = () => {
         <button
           onClick={() => setActiveTab('users')}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${activeTab === 'users'
-              ? 'bg-[#ce5a8c] text-white'
-              : 'text-slate-400 hover:text-[var(--text-primary)] hover:bg-[var(--hover-sidebar-link)]'
+            ? 'bg-[#892D56] text-white'
+            : 'text-slate-400 hover:text-[var(--text-primary)] hover:bg-[var(--hover-sidebar-link)]'
             }`}
         >
           <Users size={16} />
@@ -386,8 +386,8 @@ const AccessControl = () => {
         <button
           onClick={() => setActiveTab('permissions')}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${activeTab === 'permissions'
-              ? 'bg-[#ce5a8c] text-white'
-              : 'text-slate-400 hover:text-[var(--text-primary)] hover:bg-[var(--hover-sidebar-link)]'
+            ? 'bg-[#892D56] text-white'
+            : 'text-slate-400 hover:text-[var(--text-primary)] hover:bg-[var(--hover-sidebar-link)]'
             }`}
         >
           <Shield size={16} />
@@ -396,8 +396,8 @@ const AccessControl = () => {
         <button
           onClick={() => setActiveTab('groups')}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${activeTab === 'groups'
-              ? 'bg-[#ce5a8c] text-white'
-              : 'text-slate-400 hover:text-[var(--text-primary)] hover:bg-[var(--hover-sidebar-link)]'
+            ? 'bg-[#892D56] text-white'
+            : 'text-slate-400 hover:text-[var(--text-primary)] hover:bg-[var(--hover-sidebar-link)]'
             }`}
         >
           <FolderPlus size={16} />
@@ -407,7 +407,7 @@ const AccessControl = () => {
 
       {loading ? (
         <div className="flex items-center justify-center min-h-[40vh]">
-          <div className="w-10 h-10 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#892D56] border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <>
@@ -418,7 +418,7 @@ const AccessControl = () => {
                 <h3 className="text-xl font-bold text-slate-200">Staff Accounts Directory</h3>
                 <button
                   onClick={handleOpenAddUser}
-                  className="flex items-center gap-2 px-4 py-2.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-xl shadow-lg transition-all text-xs cursor-pointer"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-[#892D56] hover:bg-[#a13868] text-white font-extrabold rounded-xl shadow-lg transition-all text-xs cursor-pointer"
                 >
                   <UserPlus size={16} />
                   <span>Create User Account</span>
@@ -492,7 +492,7 @@ const AccessControl = () => {
 
                 <button
                   onClick={handleSavePermissions}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-xl shadow-lg transition-all text-xs cursor-pointer"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-[#892D56] hover:bg-[#a13868] text-white font-extrabold rounded-xl shadow-lg transition-all text-xs cursor-pointer"
                 >
                   <ShieldCheck size={16} />
                   <span>Save Group Permissions</span>
@@ -537,7 +537,7 @@ const AccessControl = () => {
               <div className="glass-panel p-6 rounded-3xl border border-white/5 space-y-6">
                 <div>
                   <h3 className="text-lg font-bold text-slate-200 flex items-center gap-2">
-                    <FolderPlus className="text-pink-400" size={20} />
+                    <FolderPlus className="text-[#892D56]" size={20} />
                     <span>Create Custom Role Group</span>
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">Create new security scopes in the system database.</p>
@@ -570,7 +570,7 @@ const AccessControl = () => {
 
                   <button
                     type="submit"
-                    className="w-full py-2.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-xl text-xs transition-all cursor-pointer"
+                    className="w-full py-2.5 bg-[#892D56] hover:bg-[#a13868] text-white font-extrabold rounded-xl text-xs transition-all cursor-pointer"
                   >
                     Create Group Role
                   </button>
@@ -587,7 +587,7 @@ const AccessControl = () => {
                       <div key={g.id} className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] flex justify-between items-center">
                         <div>
                           <span className="text-sm font-bold text-slate-200 block">{g.name}</span>
-                          <span className="text-xxs px-2.5 py-0.5 rounded-full bg-pink-500/10 text-pink-400 font-bold border border-pink-500/20 inline-block mt-1">
+                          <span className="text-xxs px-2.5 py-0.5 rounded-full bg-[#892D56]/10 text-[#892D56] font-bold border border-[#892D56]/20 inline-block mt-1">
                             {g.permissions?.length || 0} permissions
                           </span>
                         </div>
@@ -720,7 +720,7 @@ const AccessControl = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-xl text-sm shadow-md cursor-pointer"
+                  className="px-5 py-2.5 bg-[#892D56] hover:bg-[#a13868] text-white font-extrabold rounded-xl text-sm shadow-md cursor-pointer"
                 >
                   {editUserId ? 'Save Changes' : 'Create User'}
                 </button>

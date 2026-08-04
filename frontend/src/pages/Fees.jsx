@@ -7,7 +7,7 @@ const Fees = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
-  
+
   // Modal states
   const [showCollectModal, setShowCollectModal] = useState(false);
   const [collectId, setCollectId] = useState(null);
@@ -79,7 +79,7 @@ const Fees = () => {
     // Open print window directly to let browser download file
     const token = localStorage.getItem('token');
     const url = `http://127.0.0.1:8000/api/fees/${feeId}/receipt/?token=${token}`;
-    
+
     // Create link element and trigger download
     const link = document.createElement('a');
     link.href = url;
@@ -124,7 +124,7 @@ const Fees = () => {
           <button
             onClick={handleAutoGenerate}
             disabled={generating}
-            className="flex items-center gap-2 px-5 py-3 bg-[#ce5a8c] hover:bg-[#be4879] text-[#0c0c0c] font-extrabold rounded-2xl shadow-lg disabled:opacity-50 transition-all text-sm self-start md:self-auto cursor-pointer"
+            className="flex items-center gap-2 px-5 py-3 bg-[#892D56] hover:bg-[#a13868] text-white font-extrabold rounded-2xl shadow-lg disabled:opacity-50 transition-all text-sm self-start md:self-auto cursor-pointer"
           >
             <RefreshCw size={18} className={generating ? 'animate-spin' : ''} />
             <span>{generating ? 'Generating...' : 'Auto-Generate Monthly Dues'}</span>
@@ -168,7 +168,7 @@ const Fees = () => {
       {/* Fees Table */}
       {loading ? (
         <div className="flex items-center justify-center min-h-[40vh]">
-          <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#892D56] border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <div className="glass-panel rounded-3xl border border-white/5 overflow-hidden">
@@ -216,7 +216,7 @@ const Fees = () => {
                         {fee.status !== 'paid' && canCollect && (
                           <button
                             onClick={() => handleOpenCollect(fee)}
-                            className="px-3.5 py-1.5 bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-600 hover:text-white rounded-lg text-xs font-bold transition-all cursor-pointer"
+                            className="px-3.5 py-1.5 bg-[#892D56] hover:bg-[#a13868] text-white rounded-lg text-xs font-bold transition-all cursor-pointer shadow-md"
                           >
                             Collect Fee
                           </button>
@@ -246,7 +246,7 @@ const Fees = () => {
           <div className="glass-panel w-full max-w-sm rounded-3xl border border-white/10 overflow-hidden shadow-2xl relative animate-in fade-in zoom-in-95 duration-150">
             <div className="p-6 border-b border-white/10 flex items-center justify-between">
               <h3 className="font-bold text-lg text-slate-200">Confirm Payment Collection</h3>
-              <button 
+              <button
                 onClick={() => setShowCollectModal(false)}
                 className="text-slate-400 hover:text-slate-100 font-bold"
               >
